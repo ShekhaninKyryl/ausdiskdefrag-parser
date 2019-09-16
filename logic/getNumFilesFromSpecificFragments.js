@@ -1,6 +1,8 @@
 const fs = require('fs');
+const {getSpecificFragments} = require("../utils/getSpecificFragments");
+const {parseSize} = require("../utils/parseSize");
 
-const getNumFilesFromFragments = (data, fileIndex = 0) => {
+const getNumFilesFromSpecificFragments = (data, fileIndex = 0) => {
   let res = [];
   data.forEach((dir) => {
     const resObj = {
@@ -8,10 +10,12 @@ const getNumFilesFromFragments = (data, fileIndex = 0) => {
       data: {},
     };
     dir.files[fileIndex].data.map(obj => {
-      if (resObj.data[obj.fragments]) {
-        resObj.data[obj.fragments]++;
+      let size = parseSize(obj.size);
+      let specificFragments = getSpecificFragments(obj.fragments, size);
+      if (resObj.data[specificFragments]) {
+        resObj.data[specificFragments]++;
       } else {
-        resObj.data[obj.fragments] = 1;
+        resObj.data[specificFragments] = 1;
       }
     });
     res.push(resObj);
@@ -31,21 +35,23 @@ const getNumFilesFromFragments = (data, fileIndex = 0) => {
     return fileName + header + table + divider;
   });
   const fileName = data[0].files[fileIndex].fileName;
-  fs.writeFileSync(`./results/NumFilesFromFragments_${fileName}.csv`, str);
+  fs.writeFileSync(`./results/NumFilesFromSpecificFragments_${fileName}.csv`, str);
   return res;
 };
 
-const getNumFilesFromFragmentsAmount = (data, fileIndex = 0) => {
+const getNumFilesFromSpecificFragmentsAmount = (data, fileIndex = 0) => {
   let res = {
     fileName: 'Amount',
     data: {},
   };
   data.forEach((dir) => {
     dir.files[fileIndex].data.map(obj => {
-      if (res.data[obj.fragments]) {
-        res.data[obj.fragments]++;
+      let size = parseSize(obj.size);
+      let specificFragments = getSpecificFragments(obj.fragments, size);
+      if (res.data[specificFragments]) {
+        res.data[specificFragments]++;
       } else {
-        res.data[obj.fragments] = 1;
+        res.data[specificFragments] = 1;
       }
     });
   });
@@ -61,21 +67,23 @@ const getNumFilesFromFragmentsAmount = (data, fileIndex = 0) => {
   const divider = `\n\n`;
 
   const str = fileName + header + table + divider;
-  fs.writeFileSync(`./results/NumFilesFromFragments_${fileName}.csv`, str);
+  fs.writeFileSync(`./results/NumFilesFromSpecificFragments_${fileName}.csv`, str);
   return res;
 };
 
-const getNumFilesFromFragmentsAverage = (data, fileIndex = 0) => {
+const getNumFilesFromSpecificFragmentsAverage = (data, fileIndex = 0) => {
   let res = {
     fileName: 'Average',
     data: {},
   };
   data.forEach((dir) => {
     dir.files[fileIndex].data.map(obj => {
-      if (res.data[obj.fragments]) {
-        res.data[obj.fragments]++;
+      let size = parseSize(obj.size);
+      let specificFragments = getSpecificFragments(obj.fragments, size);
+      if (res.data[specificFragments]) {
+        res.data[specificFragments]++;
       } else {
-        res.data[obj.fragments] = 1;
+        res.data[specificFragments] = 1;
       }
     });
   });
@@ -97,14 +105,14 @@ const getNumFilesFromFragmentsAverage = (data, fileIndex = 0) => {
   const divider = `\n\n`;
 
   const str = fileName + header + table + divider;
-  fs.writeFileSync(`./results/NumFilesFromFragments_${fileName}.csv`, str);
+  fs.writeFileSync(`./results/NumFilesFromSpecificFragments_${fileName}.csv`, str);
   return res;
 };
 
 module.exports = {
-  getNumFilesFromFragments,
-  getNumFilesFromFragmentsAmount,
-  getNumFilesFromFragmentsAverage,
+  getNumFilesFromSpecificFragments,
+  getNumFilesFromSpecificFragmentsAmount,
+  getNumFilesFromSpecificFragmentsAverage,
 };
 
 // fragments: c.childNodes[1].childNodes[0].rawText,

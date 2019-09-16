@@ -12,11 +12,11 @@ const parseHTML = (fileName) => {
     if (c.tagName === 'tr' && c.rawAttrs === '') {
       if (c.childNodes.length === 11) {
         return {
-          a: c.childNodes[1].childNodes[0].rawText,
-          b: c.childNodes[3].childNodes[0].rawText,
-          c: c.childNodes[5].childNodes[0].rawText,
-          d: c.childNodes[7].childNodes[0].rawText,
-          e: c.childNodes[9].childNodes[0].rawText,
+          fragments: c.childNodes[1].childNodes[0].rawText,
+          clusters: c.childNodes[3].childNodes[0].rawText,
+          size: c.childNodes[5].childNodes[0].rawText,
+          results: c.childNodes[7].childNodes[0].rawText,
+          fileName: c.childNodes[9].childNodes[0].rawText,
         }
       }
     }
